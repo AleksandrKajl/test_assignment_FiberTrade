@@ -46,7 +46,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-
+void  UART1_RX_Callback(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -173,7 +173,6 @@ void PendSV_Handler(void)
 
   /* USER CODE END PendSV_IRQn 0 */
   /* USER CODE BEGIN PendSV_IRQn 1 */
-
   /* USER CODE END PendSV_IRQn 1 */
 }
 
@@ -183,7 +182,6 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
@@ -204,7 +202,26 @@ void SysTick_Handler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-
+    if(LL_USART_IsActiveFlag_RXNE(USART1) && LL_USART_IsEnabledIT_RXNE(USART1))
+    {
+        UART1_RX_Callback();
+    }
+    else
+    {
+        if(LL_USART_IsActiveFlag_ORE(USART1))
+        {
+            LL_USART_ClearFlag_ORE(USART1);
+        }
+        else if(LL_USART_IsActiveFlag_FE(USART1))
+        {
+            LL_USART_ClearFlag_FE(USART1);
+//            (void) USART1->DR;
+        }
+        else if(LL_USART_IsActiveFlag_NE(USART1))
+        {
+            LL_USART_ClearFlag_NE(USART1);
+        }
+    }
   /* USER CODE END USART1_IRQn 0 */
   /* USER CODE BEGIN USART1_IRQn 1 */
 
