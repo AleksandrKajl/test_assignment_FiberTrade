@@ -68,11 +68,11 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED_Pin GPIO_PIN_13
+#define LED_Pin LL_GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
-#define CP_TX_Pin GPIO_PIN_6
+#define CP_TX_Pin LL_GPIO_PIN_6
 #define CP_TX_GPIO_Port GPIOB
-#define CP_RX_Pin GPIO_PIN_7
+#define CP_RX_Pin LL_GPIO_PIN_7
 #define CP_RX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
