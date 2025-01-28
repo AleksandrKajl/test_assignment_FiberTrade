@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -91,11 +92,13 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM1_Init();
   MX_USART1_UART_Init();
+  MX_I2C1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
     LL_USART_EnableIT_RXNE(USART1);
     LL_USART_EnableIT_ERROR(USART1);
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 
     extern RING_buffer_t g_rx_buff;
     //Создаём статический массивы для использования в качестве кольцевого буфера
@@ -104,6 +107,8 @@ int main(void)
 
     RING_init(&g_rx_buff, rxbuff_data, RING_BUFF_SZ);             //Инициализация кольцевых буферов
     RING_init(&g_have_cmd, havecmd_data, RING_BUFF_SZ);           //Инициализация кольцевых буферов
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -120,6 +125,10 @@ int main(void)
               led1_on();
           } else if (msg == LED1_OFF) {
               led1_off();
+          } else if (msg == LED2_ON) {
+              led2_on();
+          } else if (msg == LED2_OFF) {
+              led2_off();
           }
 
       }

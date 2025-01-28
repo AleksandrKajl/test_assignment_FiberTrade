@@ -70,10 +70,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED_Pin LL_GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
-#define CP_TX_Pin LL_GPIO_PIN_6
-#define CP_TX_GPIO_Port GPIOB
-#define CP_RX_Pin LL_GPIO_PIN_7
-#define CP_RX_GPIO_Port GPIOB
+#define CP_TX_Pin LL_GPIO_PIN_9
+#define CP_TX_GPIO_Port GPIOA
+#define CP_RX_Pin LL_GPIO_PIN_10
+#define CP_RX_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
