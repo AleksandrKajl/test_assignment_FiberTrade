@@ -4,8 +4,10 @@
 #include "parsing_msg.h"
 #include <string.h>
 
-const uint8_t gk_cmd_on[] = "led1 on";
-const uint8_t gk_cmd_off[] = "led1 off";
+const uint8_t gk_led1_on[] = "led1 on";
+const uint8_t gk_led1_off[] = "led1 off";
+const uint8_t gk_led2_on[] = "led2 on";
+const uint8_t gk_led2_off[] = "led2 off";
 
 #define MAXCMD_SZ  20
 uint8_t buf[MAXCMD_SZ];
@@ -27,10 +29,14 @@ void get_msg(RING_buffer_t *rx_buf, RING_buffer_t *cmd_buf)
         cmdend_idx++;
     }
 
-    if (!strcmp(buf, gk_cmd_on)) {
+    if (!strcmp(buf, gk_led1_on)) {
         RING_put(LED1_ON, cmd_buf);
-    } else if (!strcmp(buf, gk_cmd_off)) {
+    } else if (!strcmp(buf, gk_led1_off)) {
         RING_put(LED1_OFF, cmd_buf);
+    } else if (!strcmp(buf, gk_led2_on)) {
+        RING_put(LED2_ON, cmd_buf);
+    } else if (!strcmp(buf, gk_led2_off)) {
+        RING_put(LED2_OFF, cmd_buf);
     }
 
     memset(buf, 0x00, MAXCMD_SZ);
