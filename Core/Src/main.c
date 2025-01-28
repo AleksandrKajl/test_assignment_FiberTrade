@@ -24,7 +24,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "led_drv.h"
+#include "ring_buf.h"
+#include <string.h>
+#include "parsing_msg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +59,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+RING_buffer_t g_have_cmd;
 /* USER CODE END 0 */
 
 /**
@@ -91,13 +94,37 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+    LL_USART_EnableIT_RXNE(USART1);
+    LL_USART_EnableIT_ERROR(USART1);
 
+    extern RING_buffer_t g_rx_buff;
+    //Создаём статический массивы для использования в качестве кольцевого буфера
+    uint8_t rxbuff_data[RING_BUFF_SZ];
+    uint8_t havecmd_data[RING_BUFF_SZ];
+
+    RING_init(&g_rx_buff, rxbuff_data, RING_BUFF_SZ);             //Инициализация кольцевых буферов
+    RING_init(&g_have_cmd, havecmd_data, RING_BUFF_SZ);           //Инициализация кольцевых буферов
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+    const uint8_t k_led1on[] = "led1 on";
+    const uint8_t k_led1off[] = "led1 off";
   while (1)
   {
+      get_msg(&g_rx_buff, &g_have_cmd);
+
+      if (RING_get_count(&g_have_cmd) > 0) {
+          Receive_msg_t msg = RING_pop(&g_have_cmd);
+          if (msg == LED1_ON) {
+              led1_on();
+          } else if (msg == LED1_OFF) {
+              led1_off();
+          }
+
+      }
+
+     LL_mDelay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
