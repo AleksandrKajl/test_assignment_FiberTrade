@@ -129,6 +129,8 @@ int main(void)
               led2_on();
           } else if (msg == LED2_OFF) {
               led2_off();
+          } else if (msg == READ_I2C) {
+
           }
 
       }
