@@ -5,6 +5,8 @@
 #include "main.h"
 #include "tim.h"
 
+#define DUTY_CYCLE 0xFFFF //Скважность
+
 // Включить светодиод
 void led1_on()
 {
@@ -19,9 +21,8 @@ void led1_off()
 
 void led2_on()
 {
-#define DUTY_CYCLE 0xFFFF //Скважность
-    int32_t crntBrightness = 0x00; //Текущая яркость подсветки
-    const uint16_t  step = 0x1FF; //Шаг увелечения яркости подсветки(Влияет на плавность).
+    int32_t crntBrightness = 0x00; //Текущая яркость
+    const uint16_t  step = 0x1FF; //Шаг увелечения яркости(Влияет на плавность).
 
     while(crntBrightness != DUTY_CYCLE)
     {
@@ -31,7 +32,7 @@ void led2_on()
             crntBrightness = DUTY_CYCLE;
 
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, crntBrightness);
-        HAL_Delay(50); // Задержка влияет на время включения полной яркости
+        LL_mDelay(50); // Задержка влияет на время включения полной яркости
     }
 }
 

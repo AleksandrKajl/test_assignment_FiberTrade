@@ -99,12 +99,15 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+    //Включаем прерывания по приходу данных и при ошибках
     LL_USART_EnableIT_RXNE(USART1);
     LL_USART_EnableIT_ERROR(USART1);
+    //Запуск генерации сигналов ШИМ
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 
     extern RING_buffer_t g_rx_buff;
-    //Создаём статический массивы для использования в качестве кольцевого буфера
+
+    //Создаём статические массивы для использования в качестве кольцевых буферов
     uint8_t rxbuff_data[RING_BUFF_SZ];
     uint8_t havecmd_data[RING_BUFF_SZ];
 
@@ -116,13 +119,18 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  //Буфер для чтения данных по i2c
   uint8_t i2c_buff[I2C_READ_DATA_SZ];
   while (1)
   {
+      //Парсиг приёмного буфера uart для получения пришедших сообщений
       get_msg(&g_rx_buff, &g_have_cmd);
 
+      //Проверяем буфер полученных команд
       if (RING_get_count(&g_have_cmd) > 0) {
+          //Получаем команду
           Receive_msg_t msg = RING_pop(&g_have_cmd);
+          //Вызов функции для реализации полученной команды
           if (msg == LED1_ON) {
               led1_on();
           } else if (msg == LED1_OFF) {
@@ -132,13 +140,15 @@ int main(void)
           } else if (msg == LED2_OFF) {
               led2_off();
           } else if (msg == READ_I2C) {
+              //Получаем данные по i2c
               read_i2c(I2C_SLAVE_ADDR, i2c_buff, I2C_READ_DATA_SZ);
+              //Отправляем данные по uart
               UART_TX(i2c_buff, I2C_READ_DATA_SZ);
           }
 
       }
-
-     LL_mDelay(100);
+      //Задержка
+      LL_mDelay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
