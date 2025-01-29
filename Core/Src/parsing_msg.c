@@ -38,10 +38,9 @@ void get_msg(RING_buffer_t *rx_buf, RING_buffer_t *cmd_buf)
         RING_put(LED2_ON, cmd_buf);
     } else if (!strcmp(buf, gk_led2_off)) {
         RING_put(LED2_OFF, cmd_buf);
-    }else if (!strcmp(buf, gk_led2_off)) {
+    }else if (!strcmp(buf, gk_read_i2c)) {
         RING_put(READ_I2C, cmd_buf);
     }
-
 
     memset(buf, 0x00, MAXCMD_SZ);
 
