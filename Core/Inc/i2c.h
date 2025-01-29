@@ -29,7 +29,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#define SSD1306_I2C_TIMEOUT             100
 /* USER CODE END Includes */
 
 extern I2C_HandleTypeDef hi2c1;
