@@ -41,7 +41,13 @@ extern I2C_HandleTypeDef hi2c1;
 void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void read_i2c(uint8_t addr, uint8_t mem_addr, uint8_t *buff, uint16_t size);
+/*!
+* @brief Чтение данных по i2c.
+ * @param[in] addr - Адрес slave устройства на шине i2c
+ * @param[out] buff - Указатель на буфер данных
+ * @param[in] size - Размер принимаемых данных
+*/
+void read_i2c(uint8_t addr, uint8_t *buff, uint16_t size);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

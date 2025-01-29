@@ -74,7 +74,6 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 #define I2C_SLAVE_ADDR          0xA0
-#define I2C_MEM_ADDR            0X00
 #define I2C_READ_DATA_SZ        0X80
   /* USER CODE END 1 */
 
@@ -133,7 +132,7 @@ int main(void)
           } else if (msg == LED2_OFF) {
               led2_off();
           } else if (msg == READ_I2C) {
-              read_i2c(I2C_SLAVE_ADDR, I2C_MEM_ADDR, i2c_buff, I2C_READ_DATA_SZ);
+              read_i2c(I2C_SLAVE_ADDR, i2c_buff, I2C_READ_DATA_SZ);
               UART_TX(i2c_buff, I2C_READ_DATA_SZ);
           }
 

@@ -8,7 +8,7 @@
 RING_buffer_t g_rx_buff;
 
 /*!
-* @brief CallBack функция при поступлении данных по uart.
+* @brief CallBack функция, вызывается при поступлении данных по uart.
 */
 void  UART1_RX_Callback(void)
 {

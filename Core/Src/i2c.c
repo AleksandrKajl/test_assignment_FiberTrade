@@ -112,7 +112,7 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
 }
 
 /* USER CODE BEGIN 1 */
-void read_i2c(uint8_t addr, uint8_t mem_addr, uint8_t *buff, uint16_t size) {
-    HAL_I2C_Mem_Read(&hi2c1, addr, mem_addr, 1, buff, size, I2C_TIMEOUT);
+void read_i2c(uint8_t addr, uint8_t *buff, uint16_t size) {
+    HAL_I2C_Master_Receive(&hi2c1, addr, buff, size, I2C_TIMEOUT);
 }
 /* USER CODE END 1 */
