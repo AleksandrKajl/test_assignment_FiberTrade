@@ -29,7 +29,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#define SSD1306_I2C_TIMEOUT             100
+#define I2C_TIMEOUT             100
 /* USER CODE END Includes */
 
 extern I2C_HandleTypeDef hi2c1;
@@ -41,7 +41,7 @@ extern I2C_HandleTypeDef hi2c1;
 void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void read_i2c(uint8_t addr, uint8_t mem_addr, uint8_t *buff, uint16_t size);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -29,6 +29,8 @@
 #include "ring_buf.h"
 #include <string.h>
 #include "parsing_msg.h"
+#include "i2c.h"
+#include "uart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -71,7 +73,9 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+#define I2C_SLAVE_ADDR          0xA0
+#define I2C_MEM_ADDR            0X00
+#define I2C_READ_DATA_SZ        0X80
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -113,8 +117,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-    const uint8_t k_led1on[] = "led1 on";
-    const uint8_t k_led1off[] = "led1 off";
+  uint8_t i2c_buff[I2C_READ_DATA_SZ];
   while (1)
   {
       get_msg(&g_rx_buff, &g_have_cmd);
@@ -130,7 +133,8 @@ int main(void)
           } else if (msg == LED2_OFF) {
               led2_off();
           } else if (msg == READ_I2C) {
-
+              read_i2c(I2C_SLAVE_ADDR, I2C_MEM_ADDR, i2c_buff, I2C_READ_DATA_SZ);
+              UART_TX(i2c_buff, I2C_READ_DATA_SZ);
           }
 
       }
